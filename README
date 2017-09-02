@@ -1,0 +1,61 @@
+
+Dependencies:
+  * pytest-timeout
+  * pytest-capturelog
+  * mock
+  * pytest
+  * paramiko
+
+*Note*
+Best to install using 'pip'
+
+*NOTE*
+Please note that 'test_node_update' is a test which runs totally 17 different tests in its
+core.
+
+############################################## UNIT_TESTS ##############################################
+The Executor contains 131 unittests.
+To acces them go to the directory: executor/unittests
+To execute them: ./run.sh 
+Or try:
+py.test -v *.py */*.py
+
+*NOTE*
+In case of problems, be sure you are in the directory with unittests
+
+
+############################################## EXAMPLE ##############################################
+Here is working example which does not need a dtests to run
+Make sure you are in the directory: executor to run without problems
+Also, make sure you edited 'username' and 'password' in the code sample.
+
+
+# -------------------------------------------------------------------------
+import logging
+
+import dtestlib
+
+from executor import Executor
+from networkobjects.host import Host
+from networkobjects.user import User
+
+executor = Executor()
+local_hosts = ["127.0.0.1", "localhost"]
+
+def test_echo_executor_localhost():
+  """ Test echo client """
+  for host_name in local_hosts:
+    host = Host(address=host_name)
+    user = User(username="TO_FILL", password="TO_FILL")
+    data = "test string"
+    executor.create_connection(host=host, user=user)
+    executor.connect()
+    cmd = executor.create_command("echo %s" % data)
+    result = executor.execute(command=cmd)
+    result.wait_for_data()
+    print "stdout: %s" % result.stdout
+    print "stderr: %s" % result.stderr
+    print "ecode: %s" % result.ecode
+
+test_echo_executor_localhost()
+# -------------------------------------------------------------------------
