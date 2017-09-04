@@ -31,6 +31,6 @@ if __name__ == "__main__":
     parser.add_argument('-u', '--username', dest='username', required=False, default="root", type=str, metavar='str',
                         help="username for your remote node")
     parser.add_argument('-p', '--password', dest='password', required=True, default=None, type=str, metavar='str',
-                        help="passowrd for your remote node")
+                        help="password for your remote node")
     args = parser.parse_args()
     test_echo_executor_localhost(username=args.username, password=args.password)
